@@ -1,10 +1,101 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
+
+    /**
+     * Node class- contains Key and Value pair
+     * Key- uniquely identifies a value
+     * value- object stored
+     */
+    private class Node{
+        K key;
+        V value;
+
+        Node(K newKey, V newValue){
+            this.key = newKey;
+            this.value = newValue;
+        }
+    }
+    private Node [] hashArray;
+    private int size;
+    private int capacity = 10; // default capacity
+
+
+
     @Override
     public boolean insert(K key, V value) throws NullValueException {
         if (value == null) {throw new NullValueException();}
-        return false;
+
+        // determine if key exist in hashArray
+        boolean found = (this.find(key) != null);
+
+        // create new Node key-Value pair
+        Node newNode = new Node(key, value);
+
+        // if hashArray is empty insert Node
+        if(size == 0){
+            hashArray = (Node[]) Array.newInstance(Node.class, capacity);
+            // hash Node and insert in hashArray
+            hash(newNode);
+        }
+        // if key exist in array, overwrite existing value
+        else if(found){
+
+        }
+        else{
+            // add newNode into hashArray
+            hash(newNode);
+        }
+
+        // maintain load factor of hashArray
+        if((size + 1) * 0.5 >= capacity){
+            resizeHashArray();
+        }
+        return found;
+    }
+
+    /**
+     * hash() -> finds the index to place key in []
+     * @param nodeToAdd new node to be inserted into hashArray
+     * return void
+     */
+    private void hash(Node nodeToAdd){
+        // determine hashCode of key
+        int index = nodeToAdd.key.hashCode() % capacity;
+
+        // resolve collusion by linear probing
+        while(hashArray[index] != null){
+            index = (index + 1) % capacity;
+        }
+        hashArray[index] = nodeToAdd;
+    }
+
+    /**
+     * resizeHashArray() -> doubles the capacity of current hashArray,
+     *                      inserts previous element into new Array.
+     *                      update hashArray and capacity
+     * return void
+     */
+    private void resizeHashArray(){
+        int newCapacity = capacity * 2;
+        Node [] temp = (Node[]) Array.newInstance(Node.class, newCapacity);
+
+        for(int i=0; i<capacity; i++){
+            if(hashArray[i] != null){
+                int index = hashArray[i].key.hashCode() % newCapacity;
+
+                // resolve collusion by linear probing
+                while(temp[index] != null){
+                    index = (index + 1) % newCapacity;
+                }
+                temp[index] = hashArray[i];
+            }
+        }
+        // update capacity and hasArray
+        capacity = newCapacity;
+        hashArray = temp;
     }
 
     @Override
@@ -14,12 +105,14 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
 
     @Override
     public boolean delete(K key) {
+        if(size == 0 || this.find(key) == null){ return false;}
+
         return false;
     }
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
