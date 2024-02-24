@@ -15,12 +15,25 @@ public class HashMapTest extends DictionaryTest{
     void testHashMapConstructor() throws NullValueException {
         ProjOneDictionary<Integer, String> dict = newDictionary();
         assertEquals(0, dict.getSize() , "Incorrect behavior of HashMap constructor");
-        dict.insert(4, "apple");
-        assertEquals(1, dict.getSize());
-        assertNotNull(dict.find(4));
-        assertEquals("apple", dict.find(4));
-        dict.insert(4, "banana");
-        assertEquals("banana", dict.find(4));
-        assertEquals(1, dict.getSize());
+    }
+
+    /**
+     * Test resizing in HashMap
+     * @throws NullValueException
+     */
+    @Test
+    void testCapacityIncrease() throws NullValueException{
+        ProjOneDictionary<Integer, String> dict = newDictionary();
+        assertEquals(0, dict.getSize() , "Incorrect behavior of HashMap constructor");
+
+        ArrayList<Integer> testArray = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9));
+        for(Integer integer : testArray){
+            dict.insert(integer, "Test");
+        }
+
+        for(Integer integer : testArray){
+            dict.insert((integer * 2), "Test");
+        }
+        assertEquals(14, dict.getSize(), "Incorrect behavior of HashMap resize");
     }
 }

@@ -53,7 +53,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         if(!found) {size++;}
 
         // maintain load factor of hashArray
-        if((size) * 0.5 >= capacity){
+        if((capacity) / 2 == size){
             resizeHashArray();
         }
         return found;
@@ -82,6 +82,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
      * return void
      */
     private void resizeHashArray(){
+        System.out.println("Capacity threshold met with \nsize: " + size + "\ncapacity :" + capacity);
         int newCapacity = capacity * 2;
         Node [] temp = (Node[]) Array.newInstance(Node.class, newCapacity);
 
