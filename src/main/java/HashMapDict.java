@@ -24,7 +24,12 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     private int size;
     private int capacity = 10; // default capacity
 
-
+    /**
+     * HashMapDict Constructor initialises a HashArray with default capacity 10
+     */
+    HashMapDict(){
+        hashArray = (Node[]) Array.newInstance(Node.class, capacity);
+    }
     @Override
     public boolean insert(K key, V value) throws NullValueException {
         if (value == null) {throw new NullValueException();}
@@ -35,25 +40,18 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         // create new Node key-Value pair
         Node newNode = new Node(key, value);
 
-        // if hashArray is empty insert Node
-        if(size == 0){
-            hashArray = (Node[]) Array.newInstance(Node.class, capacity);
-            // hash Node and insert in hashArray
-            hash(newNode);
-        }
         // if key exist in array, overwrite existing value
-        else if(found){
+        if(found){
             overwriteKey(key, value);
         }
         else{
             // add newNode into hashArray
             hash(newNode);
+            size++;
         }
-        // increase size if key does not exist
-        if(!found) {size++;}
 
         // maintain load factor of hashArray
-        if((capacity) / 2 == size){
+        if((size * 2) == capacity){
             resizeHashArray();
         }
         return found;
@@ -167,14 +165,14 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         }
         void locate(){
             curr_index++;      // set counter to 0
-            while(hashArray[curr_index] == null && curr_index < capacity){
+            while(curr_index < capacity && hashArray[curr_index] == null){
                 curr_index++;
             }
 
         }
         @Override
         public boolean hasNext() {
-            return (curr_index < (capacity-1));
+            return (curr_index < capacity-1);
         }
 
         @Override
