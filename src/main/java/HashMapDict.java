@@ -42,12 +42,14 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         }
         // if key exist in array, overwrite existing value
         else if(found){
-
+            overwriteKey(key, value);
         }
         else{
             // add newNode into hashArray
             hash(newNode);
         }
+        // increase size if key does not exist
+        if(!found) {size++;}
 
         // maintain load factor of hashArray
         if((size + 1) * 0.5 >= capacity){
@@ -97,9 +99,39 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         capacity = newCapacity;
         hashArray = temp;
     }
+    private void overwriteKey(K key, V value){
+
+        int index = key.hashCode() % capacity;
+        int count = 0;
+
+        // iterate through array to find element,
+        // because of soft-deletion search while we have not seen all elements
+        while(count <= size){
+            if(hashArray[index] != null && hashArray[index].key.equals(key)){
+                hashArray[index].value = value;
+                return;
+            }
+            index = (index + 1) % capacity;
+            count++;
+        }
+    }
 
     @Override
     public V find(K key) {
+        if (size == 0 ){return null;}
+        int index = key.hashCode() % capacity;
+        int count = 0;
+
+        // iterate through array to find element,
+        // because of soft-deletion search while we have not seen all elements
+        while(count <= size){
+            if(hashArray[index] != null && hashArray[index].key.equals(key)){
+                return hashArray[index].value;
+            }
+            index = (index + 1) % capacity;
+            count++;
+        }
+
         return null;
     }
 
@@ -107,6 +139,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     public boolean delete(K key) {
         if(size == 0 || this.find(key) == null){ return false;}
 
+        // soft-delete Node
         return false;
     }
 
