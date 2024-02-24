@@ -1,3 +1,5 @@
+import org.w3c.dom.traversal.NodeIterator;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -21,7 +23,6 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     private Node [] hashArray;
     private int size;
     private int capacity = 10; // default capacity
-
 
 
     @Override
@@ -100,46 +101,42 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         hashArray = temp;
     }
     private void overwriteKey(K key, V value){
-
+        // find index location
+        int index = getIndexPosition(key);
+        // overwrite value
+        hashArray[index].value = value;
+    }
+    private int getIndexPosition(K key){
         int index = key.hashCode() % capacity;
-        int count = 0;
 
-        // iterate through array to find element,
-        // because of soft-deletion search while we have not seen all elements
-        while(count <= size){
-            if(hashArray[index] != null && hashArray[index].key.equals(key)){
-                hashArray[index].value = value;
-                return;
+        // search until finding either an empty cell or a cell whose stored key is x
+        while(hashArray[index] != null){
+            if(hashArray[index].key.equals(key)){
+                return index;
             }
             index = (index + 1) % capacity;
-            count++;
         }
+        return -1;
     }
 
     @Override
     public V find(K key) {
-        if (size == 0 ){return null;}
-        int index = key.hashCode() % capacity;
-        int count = 0;
+        if(size == 0){ return null;}
 
-        // iterate through array to find element,
-        // because of soft-deletion search while we have not seen all elements
-        while(count <= size){
-            if(hashArray[index] != null && hashArray[index].key.equals(key)){
-                return hashArray[index].value;
-            }
-            index = (index + 1) % capacity;
-            count++;
-        }
+        // get index position of key, index -1 is returned if key is not found
+        int index = getIndexPosition(key);
+        if (index == -1){return null;}
 
-        return null;
+        return hashArray[index].value;
     }
 
     @Override
     public boolean delete(K key) {
         if(size == 0 || this.find(key) == null){ return false;}
 
-        // soft-delete Node
+        // soft-delete Node at index position
+        int index = getIndexPosition(key);
+        //hashArray[index].key =  ;
         return false;
     }
 
@@ -148,8 +145,35 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         return size;
     }
 
+    /**
+     * HashMap_Iterator linearly searches hashArray
+     */
+    private class HashMap_Iterator implements Iterator<K>{
+
+        int curr_index = 0;
+
+        HashMap_Iterator(){
+            locate();
+        }
+        void locate(){
+            while(hashArray[curr_index] == null && curr_index < capacity){
+                curr_index++;
+            }
+        }
+        @Override
+        public boolean hasNext() {
+            return (curr_index < capacity);
+        }
+
+        @Override
+        public K next() {
+            K to_return = hashArray[curr_index].key;
+            locate();
+            return to_return;
+        }
+    }
     @Override
     public Iterator<K> iterator() {
-        return null;
+        return new HashMap_Iterator();
     }
 }
