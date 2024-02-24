@@ -141,9 +141,9 @@ public abstract class DictionaryTest {
             dict.insert(integer, "value");
         }
         //Todo........
-        for (Integer integer : dict) {
-            System.out.println(integer);
-        }
+//        for (Integer integer : dict) {
+//            System.out.println(integer);
+//        }
         System.out.println("Deleting....");
         assertTrue(dict.delete(7));
         assertTrue(dict.delete(10));

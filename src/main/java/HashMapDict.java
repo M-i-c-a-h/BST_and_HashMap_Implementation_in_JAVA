@@ -53,7 +53,7 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
         if(!found) {size++;}
 
         // maintain load factor of hashArray
-        if((size + 1) * 0.5 >= capacity){
+        if((size) * 0.5 >= capacity){
             resizeHashArray();
         }
         return found;
@@ -134,10 +134,19 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
     public boolean delete(K key) {
         if(size == 0 || this.find(key) == null){ return false;}
 
-        // soft-delete Node at index position
+        // delete Node at index position
         int index = getIndexPosition(key);
-        //hashArray[index].key =  ;
-        return false;
+        hashArray[index] = null;
+        size--;
+
+        // rehash keys,
+        // move keys up the table if a prior index exist for hashcode
+        for(index = (index + 1) % capacity; hashArray[index] != null; index = (index + 1) % capacity){
+            Node rehash = hashArray[index];
+            hashArray[index] = null;
+            hash(rehash);
+        }
+        return true;
     }
 
     @Override
@@ -150,19 +159,21 @@ public class HashMapDict<K,V> implements ProjOneDictionary<K,V> {
      */
     private class HashMap_Iterator implements Iterator<K>{
 
-        int curr_index = 0;
+        int curr_index = -1; // default start out of range
 
         HashMap_Iterator(){
             locate();
         }
         void locate(){
+            curr_index++;      // set counter to 0
             while(hashArray[curr_index] == null && curr_index < capacity){
                 curr_index++;
             }
+
         }
         @Override
         public boolean hasNext() {
-            return (curr_index < capacity);
+            return (curr_index < (capacity-1));
         }
 
         @Override
