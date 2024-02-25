@@ -103,7 +103,7 @@ public abstract class DictionaryTest {
      */
     //*** Test EmptyDelete
     @Test
-    void testEmptyDelete() throws NullValueException{
+    void testEmptyDelete() {
         ProjOneDictionary<Integer, String> dict = newDictionary();
         assertEquals(0,dict.getSize());
         assertFalse(dict.delete(6),"Incorrect behavior for delete on empty dictionary");
@@ -140,11 +140,7 @@ public abstract class DictionaryTest {
         for(Integer integer : testArray){
             dict.insert(integer, "value");
         }
-        //Todo........
-//        for (Integer integer : dict) {
-//            System.out.println(integer);
-//        }
-        System.out.println("Deleting....");
+
         assertTrue(dict.delete(7));
         assertTrue(dict.delete(10));
         testArray.remove((Integer) 7); testArray.remove((Integer) 10);
@@ -152,9 +148,7 @@ public abstract class DictionaryTest {
         for(Integer integer : testArray){
             assertEquals("value", dict.find(integer), "Incorrect behavior for delete edgeCase1");
         }
-        for (Integer integer : dict) {
-            System.out.println(integer);
-        }
+
     }
     //*** Test Delete for edge case 2
     @Test

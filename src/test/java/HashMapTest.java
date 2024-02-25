@@ -16,6 +16,14 @@ public class HashMapTest extends DictionaryTest{
         ProjOneDictionary<Integer, String> dict = newDictionary();
         assertEquals(0, dict.getSize() , "Incorrect behavior of HashMap constructor");
     }
+    @Test
+    void testOverwrite() throws NullValueException {
+        ProjOneDictionary<Integer, String> dict = newDictionary();
+        assertEquals(0, dict.getSize() , "Incorrect behavior of HashMap constructor");
+        assertFalse(dict.insert(4, "apple"));
+        assertTrue(dict.insert(4, "pineapple"));
+        assertEquals("pineapple",dict.find(4));
+    }
 
     /**
      * Test resizing in HashMap
