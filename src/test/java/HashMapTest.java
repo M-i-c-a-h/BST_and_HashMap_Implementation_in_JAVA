@@ -12,7 +12,7 @@ public class HashMapTest extends DictionaryTest{
     }
 
     @Test
-    void testHashMapConstructor() throws NullValueException {
+    void testHashMapConstructor() {
         ProjOneDictionary<Integer, String> dict = newDictionary();
         assertEquals(0, dict.getSize() , "Incorrect behavior of HashMap constructor");
     }
