@@ -1,5 +1,8 @@
 /**
+ * Project: Dictionary Implementation in java
+ * File: BSTTest [Test suite validates BST Structure]
  * @author Micah Olugbamila
+ * Date: 02/29/2024
  */
 
 import org.junit.jupiter.api.Test;

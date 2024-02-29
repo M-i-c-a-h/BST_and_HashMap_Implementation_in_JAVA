@@ -1,5 +1,8 @@
 /**
+ * Project: Dictionary Implementation in java
+ * File: DictionaryTest [Test suite runs for both BST and HaspMap]
  * @author Micah Olugbamila
+ * Date: 02/29/2024
  */
 
 import static org.junit.jupiter.api.Assertions.*;

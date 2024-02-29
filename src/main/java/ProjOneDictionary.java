@@ -1,4 +1,7 @@
+
 /**
+ * Project: Dictionary Interface to be Implemented in java
+ * File: ProjOneDictionary [method to be implemented by references to ProjOneDictionary]
  * @author Dr. Evan McCarty
  */
 

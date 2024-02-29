@@ -1,5 +1,8 @@
 /**
+ * Project: Dictionary Implementation in java
+ * File: HashMapDict [HashMapDict implementation in java]
  * @author Micah Olugbamila
+ * Date: 02/29/2024
  */
 import org.w3c.dom.traversal.NodeIterator;
 

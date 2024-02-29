@@ -1,5 +1,8 @@
 /**
+ * Project: Dictionary Implementation in java
+ * File: BinarySearchTreeDict [BST implementation in java]
  * @author Micah Olugbamila
+ * Date: 02/29/2024
  */
 import java.util.Iterator;
 
@@ -137,11 +140,7 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
                 //  delete node
                 nodeToDelete.right.parent = nodeToDelete.parent;
                 // update parent leaf node
-                //Todo********
-                if(nodeToDelete.parent.left == nodeToDelete){
-                    //nodeToDelete.parent.left = nodeToDelete.left;
-                }
-                else if(nodeToDelete.parent.right == nodeToDelete){
+                if(nodeToDelete.parent.right == nodeToDelete){
                     nodeToDelete.parent.right = nodeToDelete.right;
                 }
             }
@@ -149,10 +148,6 @@ public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneD
                 nodeToDelete.left.parent = nodeToDelete.parent;
                 if(nodeToDelete.parent.left == nodeToDelete){
                     nodeToDelete.parent.left = null;
-                }
-                //Todo********
-                else{
-                    //nodeToDelete.parent.right = nodeToDelete.left;
                 }
 
             }
