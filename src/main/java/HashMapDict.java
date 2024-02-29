@@ -1,3 +1,6 @@
+/**
+ * @author Micah Olugbamila
+ */
 import org.w3c.dom.traversal.NodeIterator;
 
 import java.lang.reflect.Array;

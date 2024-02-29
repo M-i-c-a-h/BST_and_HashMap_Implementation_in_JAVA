@@ -1,3 +1,6 @@
+/**
+ * @author Micah Olugbamila
+ */
 import java.util.Iterator;
 
 public class BinarySearchTreeDict<K extends Comparable<K>,V> implements ProjOneDictionary<K,V> {

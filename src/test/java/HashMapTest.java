@@ -1,3 +1,7 @@
+/**
+ * @author Micah Olugbamila
+ */
+
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -86,5 +90,38 @@ public class HashMapTest extends DictionaryTest{
         }
         assertEquals(size, count);
         assertFalse(iter.hasNext(), "Incorrect Iterator behavior with multiple element");
+    }
+    @Test
+    void testHashMapIteratorBroken1() throws NullValueException{
+        ProjOneDictionary<Integer, String> dict = newDictionary();
+        for(int i = 0; i<10; i++){
+            if(i%2 == 0){continue;}
+            assertFalse(dict.insert(i,"Test"));
+        }
+        dict.delete(7);
+        dict.insert(6,"null");
+        dict.insert(15,"test");
+        dict.delete(5);
+        dict.insert(5,"test");
+        dict.delete(1);
+        dict.insert(11,"Test");
+        dict.insert(31,"Test");
+        dict.delete(11);
+        dict.insert(11, "Test");
+
+        for(int i = 0; i<10; i++){
+            if(i%2 == 0){continue;}
+            assertFalse(dict.insert(i+17,"Test"));
+        }
+        Iterator<Integer> iter = dict.iterator();
+        int count = 0;
+
+        while(iter.hasNext()){
+            Integer key = iter.next();
+            assertNotNull(dict.find(key));
+            count++;
+        }
+        assertEquals(dict.getSize(),count);
+
     }
 }

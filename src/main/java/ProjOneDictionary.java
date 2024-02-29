@@ -1,3 +1,7 @@
+/**
+ * @author Dr. Evan McCarty
+ */
+
 public interface ProjOneDictionary<K ,V> extends Iterable<K>{
     /**
      * Inserts a key, value pair into the dictionary. If the key is already in the dictionary it should overwrite the value currently in the dictionary.

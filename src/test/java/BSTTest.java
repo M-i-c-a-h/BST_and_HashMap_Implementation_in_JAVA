@@ -1,3 +1,7 @@
+/**
+ * @author Micah Olugbamila
+ */
+
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Array;
