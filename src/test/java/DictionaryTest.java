@@ -8,8 +8,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public abstract class DictionaryTest {
     public abstract ProjOneDictionary<Integer,String> newDictionary();
@@ -176,5 +175,22 @@ public abstract class DictionaryTest {
             assertEquals("value", dict.find(integer), "Incorrect behavior for delete edgeCase2");
         }
 
+    }
+    @Test
+    void testBrokenImplementation() throws NullValueException{
+        ProjOneDictionary<Integer, String> dict = newDictionary();
+        assertEquals(0,dict.getSize());
+
+        ArrayList<Integer> testArray = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5,6));
+        for(Integer integer: testArray){
+            dict.insert(integer, "value");
+        }
+
+        Iterator<Integer> iter = dict.iterator();
+        Set<Integer> testDuplicate = new HashSet<>();
+        while(iter.hasNext()){
+            Integer test = iter.next();
+            assertTrue(testDuplicate.add(test), "Incorrect implementation of Dictionary, Iterator returned duplicate key " + test);
+        }
     }
 }
